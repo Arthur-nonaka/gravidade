@@ -114,6 +114,11 @@ function Circle(radius, x, y) {
     } else {
       this.velocityY += gravity;
     }
+    if( this.y - this.radius <= 0) {
+      this.velocityY /= ground;
+      this.velocityY *= -1;
+      this.y = 0 + this.radius;
+    }
     this.y += this.velocityY;
     this.x += this.velocityX;
   };
