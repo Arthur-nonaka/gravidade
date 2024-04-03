@@ -1,8 +1,29 @@
 const container = document.getElementById("container");
+const text = document.getElementById("text");
+const money = document.getElementById("money");
+let clickAmount = 0;
+
+const textArray = ["Pandas are so adorable.",
+  "I only eat glazed donuts.",
+  "How big of an idiot are you?",
+  "Diamonds are forever.",
+  "That was a stroke of luck.",
+  "Please don't touch me there",
+  "This Is my no no square",
+  "It usually rains every day here.",
+  "I was thinking of going round your place.",
+  "Get away from me, you slimy little worm!",
+  "Do you have a bigger one?",
+  "I am so tired.",
+  "I am so happy to see you today.",
+  "We are good friends.",
+  "Mind your own business!",
+  "I made a smoothie for you.",
+];
 
 var circle;
 var gravity = 0.1;
-var friction = 0.03;
+var friction = 0.06;
 var ground = 1.7;
 
 function startGame() {
@@ -13,8 +34,8 @@ function startGame() {
 var myGameArea = {
   canvas: document.createElement("canvas"),
   start: function () {
-    const WIDTH = 600,
-      HEIGHT = 600;
+    const WIDTH = 500,
+      HEIGHT = 500;
     this.canvas.width = WIDTH;
     this.canvas.height = HEIGHT;
     this.context = this.canvas.getContext("2d");
@@ -66,6 +87,14 @@ var myGameArea = {
         if (y >= circle.y) circle.velocityY += Math.abs(y - circle.y) * 0.1;
         else if (y < circle.y) circle.velocityY += Math.abs(y - circle.y) * -0.1;
         this.ok = false;
+        if (clickAmount === 0) {
+          text.innerHTML = "Nice!";
+        }
+        else {
+          const random = Math.floor(Math.random() * textArray.length);
+          text.innerHTML = textArray[random];
+        }
+        clickAmount++
       }
       circle.color = "White";
     });
@@ -114,10 +143,13 @@ function Circle(radius, x, y) {
     } else {
       this.velocityY += gravity;
     }
-    if( this.y - this.radius <= 0) {
+    if (this.y - this.radius <= 0) {
       this.velocityY /= ground;
       this.velocityY *= -1;
       this.y = 0 + this.radius;
+    }
+    if(this.velocityX > 1 || this.velocityX < -1|| this.velocityY > 1 || this.velocityY < -1) {
+      money.innerHTML = (Number(money.innerHTML) + 0.10).toFixed(2);
     }
     this.y += this.velocityY;
     this.x += this.velocityX;
