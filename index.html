@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,20 @@
     <script defer src="index.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body onload="startGame()">
     <div class="container" id="container">
         <label id="text" class="text">Hold The Ball to Move It !</label>
-        <section class="money-section" >
-            <label>Money: <label id="money">0</label></label>
-        </section> 
+        <section class="money-section">
+            <label><img src="img/coin.png" width="30px" height="30px" class="money-img" />: <label
+                    id="money">0</label></label>
+            <section class="upgrade-section">
+                <button id="buttonMoneyMultiplier">
+                    Incrase money multiplier <label id="priceMoneyMultiplier">10</label>
+                </button><label id="porcentage">0.01</label>
+            </section>
+        </section>
     </div>
 </body>
+
 </html>

@@ -1,7 +1,11 @@
 const container = document.getElementById("container");
 const text = document.getElementById("text");
 const money = document.getElementById("money");
+const moneyMultiplier = document.getElementById("porcentage");
+const buttonMoneyMultiplier = document.getElementById("buttonMoneyMultiplier");
 let clickAmount = 0;
+
+var multiplier = 0.01;
 
 const textArray = ["Pandas are so adorable.",
   "I only eat glazed donuts.",
@@ -117,6 +121,7 @@ function Circle(radius, x, y) {
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
     ctx.fillStyle = this.color;
     ctx.fill();
+    ctx.strokeStyle = "#00FF0000";
     ctx.stroke();
     if (this.x + this.radius >= myGameArea.canvas.width) {
       this.velocityX *= -1;
@@ -149,7 +154,7 @@ function Circle(radius, x, y) {
       this.y = 0 + this.radius;
     }
     if(this.velocityX > 1 || this.velocityX < -1|| this.velocityY > 1 || this.velocityY < -1) {
-      money.innerHTML = (Number(money.innerHTML) + 0.10).toFixed(2);
+      money.innerHTML = (Number(money.innerHTML) + multiplier).toFixed(2);
     }
     this.y += this.velocityY;
     this.x += this.velocityX;
@@ -160,3 +165,9 @@ function updateGameArea() {
   myGameArea.clear();
   circle.update();
 }
+
+
+buttonMoneyMultiplier.addEventListener("click", () => {
+  multiplier += 0.002;
+  moneyMultiplier.innerHTML = multiplier.toFixed(3);
+}); 
