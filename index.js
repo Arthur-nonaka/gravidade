@@ -1,12 +1,25 @@
 const container = document.getElementById("container");
 const text = document.getElementById("text");
-const money = document.getElementById("money");
-const moneyMultiplier = document.getElementById("porcentage");
-const buttonMoneyMultiplier = document.getElementById("buttonMoneyMultiplier");
+
+
+const gameValues = {
+  "money": {
+    element: document.getElementById("money"),
+    value: 0,
+  },
+  "multiplier": {
+    element: document.getElementById("porcentage"),
+    value: 0.01,
+  },
+  "priceMultiplier": {
+    element: document.getElementById("priceMoneyMultiplier"),
+    value: 10,
+  }
+}
+
+document.getElementById("buttonMoneyMultiplier");
+
 let clickAmount = 0;
-
-var multiplier = 0.01;
-
 const textArray = ["Pandas are so adorable.",
   "I only eat glazed donuts.",
   "How big of an idiot are you?",
@@ -35,6 +48,15 @@ function startGame() {
   circle = new Circle(25, 200, 10);
 }
 
+
+const refresher = () => {
+  const valueKeys = Object.keys(gameValues);
+  valueKeys.forEach(valuekey => {
+    gameValues[valuekey].element.innerHTML = (gameValues[valuekey].value).toFixed(2);
+  })
+}
+
+
 var myGameArea = {
   canvas: document.createElement("canvas"),
   start: function () {
@@ -54,10 +76,10 @@ var myGameArea = {
         y = event.pageY - elemTop;
 
       if (
-        x <= circle.x + circle.radius &&
-        x >= circle.x - circle.radius &&
-        y <= circle.y + circle.radius &&
-        y >= circle.y - circle.radius
+        x <= circle.x + circle.radius + 5 &&
+        x >= circle.x - circle.radius - 5 &&
+        y <= circle.y + circle.radius + 5 &&
+        y >= circle.y - circle.radius - 5
       ) {
         document.body.classList.add("cursorAtivado");
         document.body.classList.remove("cursorDesativado");
@@ -71,10 +93,10 @@ var myGameArea = {
         y = event.pageY - elemTop;
 
       if (
-        x <= circle.x + circle.radius &&
-        x >= circle.x - circle.radius &&
-        y <= circle.y + circle.radius &&
-        y >= circle.y - circle.radius
+        x <= circle.x + circle.radius + 5 &&
+        x >= circle.x - circle.radius - 5 &&
+        y <= circle.y + circle.radius + 5 &&
+        y >= circle.y - circle.radius - 5
       ) {
         circle.color = "Yellow";
         this.ok = true;
@@ -112,8 +134,8 @@ function Circle(radius, x, y) {
   this.radius = radius;
   this.x = x;
   this.y = y;
-  this.velocityY = 9.8;
-  this.velocityX = 10;
+  this.velocityY = 0.1;
+  this.velocityX = -10;
   this.color = "White";
   this.update = function () {
     ctx = myGameArea.context;
@@ -153,11 +175,19 @@ function Circle(radius, x, y) {
       this.velocityY *= -1;
       this.y = 0 + this.radius;
     }
-    if(this.velocityX > 1 || this.velocityX < -1|| this.velocityY > 1 || this.velocityY < -1) {
-      money.innerHTML = (Number(money.innerHTML) + multiplier).toFixed(2);
+    if (this.velocityX > 1 || this.velocityX < -1 || this.velocityY > 1 || this.velocityY < -1) {
+      const positiveVelocityX = Math.abs(this.velocityX);
+      const positiveVelocityY = Math.abs(this.velocityY);
+
+      const totalVelocity = positiveVelocityX + positiveVelocityY;
+      const valueMoneyToWIn = totalVelocity * gameValues.multiplier.value;
+
+      gameValues.money.value = (gameValues.money.value + valueMoneyToWIn);
     }
     this.y += this.velocityY;
     this.x += this.velocityX;
+    refresher();
+    // moneyT.innerHTML = money.toFixed(2);
   };
 }
 
@@ -168,6 +198,11 @@ function updateGameArea() {
 
 
 buttonMoneyMultiplier.addEventListener("click", () => {
-  multiplier += 0.002;
-  moneyMultiplier.innerHTML = multiplier.toFixed(3);
+  if (gameValues.money.value >= gameValues.priceMultiplier.value) {
+    gameValues.multiplier.value *= 1.4;
+    gameValues.money.value = gameValues.money.value - gameValues.priceMultiplier.value;
+    gameValues.priceMultiplier.value *= 1.5;
+    refresher();
+  }
+
 }); 

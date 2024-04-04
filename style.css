@@ -7,6 +7,9 @@ canvas {
   background-color: rgb(95, 195, 127);
   border: 5px solid rgb(67, 24, 24);
 }
+* {
+  user-select: none;
+}
 
 
 .cursorAtivado :hover {
