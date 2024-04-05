@@ -3,19 +3,24 @@ body {
   top: 0;
   font-family: Helvetica, sans-serif;
 }
+
 canvas {
-  background-color: rgb(95, 195, 127);
   border: 5px solid rgb(67, 24, 24);
+  position: relative; 
+  background-color: rgb(95, 195, 127);
+  background-image: url(assets/img/chessBackground.jpg);
+  background-size: contain;
+  
+  /* opacity: 1; */
 }
+
 * {
   user-select: none;
 }
 
-
 .cursorAtivado :hover {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 
 .cursorDesativado {
   cursor: default;
@@ -32,8 +37,8 @@ canvas {
 }
 
 .money-section {
-  height: 500px;
-  width: 27%;
+  height: 600px;
+  width: 23%;
   position: absolute;
   right: 0px;
   display: flex;
@@ -41,6 +46,9 @@ canvas {
   justify-content: flex-start;
   flex-direction: column;
   padding: 15px;
+  border: 2px solid rgb(41, 25, 11);
+  border-right: 0px;
+  background-color: rgb(249, 250, 238);
 
   label {
     display: flex;
@@ -51,7 +59,8 @@ canvas {
 }
 
 .text {
-  top: 10px;
+  top: 5%;
+  font-size: 2rem;
   position: absolute;
 }
 
@@ -62,9 +71,14 @@ button {
 
   label {
     width: 10px;
-    position: absolute;
-    border: 2px solid yellow;
-    transform: translateX(-30px) translateY(-40px);
+    position: inherit;
+    border: 2px solid rgb(236, 236, 163);
+    background-color: rgba(236, 236, 163, 0.37);
+    z-index: -1;
+    /* transform: translateX(-30px) translateY(-40px); */
+  }
+  label:hover {
+    cursor: pointer;
   }
 }
 
@@ -78,5 +92,29 @@ button:hover {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+.button-audio {
+  position: absolute;
+  bottom: 5%;
+  right: 2%;
+  width: 30px;
+  height: 30px;
+  border-radius: 55%;
+  background-color: #ffffff00;
+  border: none;
+}
+
+.ativado {
+  /* background-color: greenyellow; */
+  background-image: url(assets/img/volume.png);
+  background-size: contain;
+
+}
+
+.desativado {
+  /* background-color: rgb(138, 137, 135); */
+  background-image: url(assets/img/mute.png);
+  background-size: contain;
 }

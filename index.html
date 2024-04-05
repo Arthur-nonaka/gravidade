@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gravidade</title>
     <script defer src="index.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <audio autoplay loop id="backgroundMusic">
+    <source src="assets/sound/music.mp3" type="audio/mpeg" />
+    Seu navegador não suporta a tag de áudio.
+  </audio>
 
-<body onload="startGame()">
+  <body onload="startGame()">
     <div class="container" id="container">
-        <label id="text" class="text">Hold The Ball to Move It !</label>
-        <section class="money-section">
-            <label><img src="img/coin.png" width="30px" height="30px" class="money-img" />: <label
-                    id="money">0</label></label>
-            <section class="upgrade-section">
-                <button id="buttonMoneyMultiplier">
-                    Incrase money multiplier <label id="priceMoneyMultiplier">10</label>
-                </button><label id="porcentage">0.01</label>
-            </section>
-        </section>
+      <button class="button-audio desativado" id="backgroundButton"></button>
+      <label id="text" class="text">Hold ME !!</label>
+      <section class="money-section">
+        <label
+          ><img
+            src="assets/img/coin.png"
+            width="30px"
+            height="30px"
+            class="money-img"
+          />: <label id="money">0</label></label
+        >
+        <section class="upgrade-section" id="upgradeSection"></section>
+      </section>
     </div>
-</body>
-
+  </body>
 </html>
