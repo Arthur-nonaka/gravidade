@@ -16,6 +16,9 @@ const gameValues = {
   priceMultiplier: {
     value: 10,
   },
+  power: {
+    value: 0.012
+  }
 };
 
 let clickAmount = 0;
@@ -59,7 +62,7 @@ var friction = 0.23;
 var ground = 1.7;
 
 function startGame() {
-  myGameArea.start();
+  GameArea.start();
   circle = new Circle(25, 15, 300);
 }
 
@@ -73,7 +76,7 @@ const refresher = () => {
   });
 };
 
-var myGameArea = {
+const GameArea = {
   canvas: document.createElement("canvas"),
   start: function () {
     const WIDTH = 500,
@@ -124,13 +127,13 @@ var myGameArea = {
 
       if (this.ok) {
         if (x >= circle.x)
-          circle.velocityX += Math.abs(x - circle.x) * circle.speed;
+          circle.velocityX += Math.abs(x - circle.x) * gameValues.power.value;
         else if (x < circle.x)
-          circle.velocityX += Math.abs(x - circle.x) * (circle.speed * -1);
+          circle.velocityX += Math.abs(x - circle.x) * (gameValues.power.value * -1);
         if (y >= circle.y)
-          circle.velocityY += Math.abs(y - circle.y) * circle.speed;
+          circle.velocityY += Math.abs(y - circle.y) * gameValues.power.value;
         else if (y < circle.y)
-          circle.velocityY += Math.abs(y - circle.y) * (circle.speed * -1);
+          circle.velocityY += Math.abs(y - circle.y) * (gameValues.power.value * -1);
         this.ok = false;
         if (clickAmount === 0) {
           text.innerHTML = "Nice!";
@@ -175,26 +178,26 @@ var myGameArea = {
   },
 };
 
+
 function Circle(radius, x, y) {
   this.radius = radius;
   this.x = x;
   this.y = y;
   this.velocityY = 2;
   this.velocityX = 10;
-  this.speed = 0.012;
   this.color = "White";
   this.update = function () {
-    ctx = myGameArea.context;
+    ctx = GameArea.context;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.strokeStyle = "#00FF0000";
     ctx.stroke();
-    if (this.x + this.radius >= myGameArea.canvas.width) {
+    if (this.x + this.radius >= GameArea.canvas.width) {
       this.velocityX *= -1;
       this.velocityX /= 2;
-      this.x = myGameArea.canvas.width - this.radius - 0.1;
+      this.x = GameArea.canvas.width - this.radius - 0.1;
     }
     if (this.x - this.radius <= 0) {
       this.velocityX *= -1;
@@ -202,10 +205,10 @@ function Circle(radius, x, y) {
       this.x = 0.1 + this.radius;
     }
 
-    if (this.y + this.radius >= myGameArea.canvas.height) {
+    if (this.y + this.radius >= GameArea.canvas.height) {
       this.velocityY /= ground;
       this.velocityY *= -1;
-      this.y = myGameArea.canvas.height - this.radius - 0.1;
+      this.y = GameArea.canvas.height - this.radius - 0.1;
       if (this.velocityX > -0.1 && this.velocityX < 0.1) {
         this.velocityX = 0;
       } else if (this.velocityX > 0) {
@@ -243,7 +246,7 @@ function Circle(radius, x, y) {
 }
 
 function updateGameArea() {
-  myGameArea.clear();
+  GameArea.clear();
   circle.update();
 }
 
