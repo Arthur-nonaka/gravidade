@@ -3,6 +3,7 @@ const text = document.getElementById("text");
 const buttonBackground = document.getElementById("backgroundButton");
 const backgroundMusic = document.getElementById("backgroundMusic");
 var buttonMoneyMultiplier;
+var buttonPowerMultiplier;
 const upgradeSection = document.getElementById("upgradeSection");
 
 const gameValues = {
@@ -11,14 +12,21 @@ const gameValues = {
     value: 0,
   },
   multiplier: {
+    element: null,
     value: 0.01,
   },
   priceMultiplier: {
+    element: null,
     value: 10,
   },
   power: {
-    value: 0.012
-  }
+    element: null,
+    value: 0.012,
+  },
+  pricePower: {
+    element: null,
+    value: 100.0,
+  },
 };
 
 let clickAmount = 0;
@@ -67,9 +75,33 @@ function startGame() {
 }
 
 const refresher = () => {
+  if (gameValues.money.value >= 100 && !gameValues.power.element) {
+    gameValues.power.element = document.createElement("label");
+    gameValues.pricePower.element = document.createElement("label");
+
+    gameValues.power.element.innerHTML = gameValues.power.value;
+    gameValues.pricePower.element.innerHTML = gameValues.pricePower.value;
+
+    buttonPowerMultiplier = document.createElement("button");
+    buttonPowerMultiplier.innerHTML = "Incrase POWER";
+    buttonPowerMultiplier.appendChild(gameValues.pricePower.element);
+
+    buttonPowerMultiplier.addEventListener("click", () => {
+      if (gameValues.money.value >= gameValues.pricePower.value) {
+        gameValues.power.value *= 1.2;
+        gameValues.money.value =
+          gameValues.money.value - gameValues.pricePower.value;
+        gameValues.pricePower.value *= 2.1;
+        refresher();
+      }
+    });
+    upgradeSection.appendChild(buttonPowerMultiplier);
+    upgradeSection.appendChild(gameValues.power.element);
+    refresher();
+  }
   const valueKeys = Object.keys(gameValues);
   valueKeys.forEach((valueKey) => {
-    if (gameValues[valueKey].hasOwnProperty("element")) {
+    if (gameValues[valueKey].element !== null) {
       gameValues[valueKey].element.innerHTML =
         gameValues[valueKey].value.toFixed(3);
     }
@@ -129,11 +161,13 @@ const GameArea = {
         if (x >= circle.x)
           circle.velocityX += Math.abs(x - circle.x) * gameValues.power.value;
         else if (x < circle.x)
-          circle.velocityX += Math.abs(x - circle.x) * (gameValues.power.value * -1);
+          circle.velocityX +=
+            Math.abs(x - circle.x) * (gameValues.power.value * -1);
         if (y >= circle.y)
           circle.velocityY += Math.abs(y - circle.y) * gameValues.power.value;
         else if (y < circle.y)
-          circle.velocityY += Math.abs(y - circle.y) * (gameValues.power.value * -1);
+          circle.velocityY +=
+            Math.abs(y - circle.y) * (gameValues.power.value * -1);
         this.ok = false;
         if (clickAmount === 0) {
           text.innerHTML = "Nice!";
@@ -177,7 +211,6 @@ const GameArea = {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
 };
-
 
 function Circle(radius, x, y) {
   this.radius = radius;
